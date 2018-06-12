@@ -1,0 +1,83 @@
+[
+  {
+    "date": {
+      "year": 2016,
+      "month": 1,
+      "day": 1
+    },
+    "currency": "USD",
+    "publicHoliday": "New Year Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 1,
+      "day": 18
+    },
+    "currency": "USD",
+    "publicHoliday": "Martin Luther King Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 2,
+      "day": 15
+    },
+    "currency": "USD",
+    "publicHoliday": "Presidents Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 5,
+      "day": 30
+    },
+    "currency": "USD",
+    "publicHoliday": "Memorial Day, Spring Bank Holiday"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 7,
+      "day": 4
+    },
+    "currency": "USD",
+    "publicHoliday": "Independence Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 9,
+      "day": 5
+    },
+    "currency": "USD",
+    "publicHoliday": "Labour Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 11,
+      "day": 11
+    },
+    "currency": "USD",
+    "publicHoliday": "Veterans Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 11,
+      "day": 24
+    },
+    "currency": "USD",
+    "publicHoliday": "Thanksgiving Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 12,
+      "day": 26
+    },
+    "currency": "USD",
+    "publicHoliday": "Christmas Day"
+  }
+]

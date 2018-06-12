@@ -1,67 +1,69 @@
 package com.vasidzius.tradevalidator.controller;
 
-import com.vasidzius.tradevalidator.model.ErrorResponse;
+import com.vasidzius.tradevalidator.GsonUtils;
 import com.vasidzius.tradevalidator.model.TradeInfo;
+import com.vasidzius.tradevalidator.validation.Error;
 import com.vasidzius.tradevalidator.validation.TradeValidator;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.Validator;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+/**
+ * The type Trade validator service.
+ */
 @RestController
-@RequestMapping("/validator")
+@RequestMapping
 @AllArgsConstructor
+@Api
 public class TradeValidatorService {
 
     private TradeValidator tradeValidator;
 
+    /**
+     * Validate List<TradeInfo>.
+     *
+     * @param tradeInfos the trade infos
+     * @return validation result as Map<TradeInfo, List<ErrorMessages>>
+     */
+    @ApiOperation(value = "validate trades")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Validation is successful")
+    })
     @PostMapping
-    public ResponseEntity validate(@RequestBody List<TradeInfo> tradeInfos){
-        List<ErrorResponse> errorResponses = new ArrayList<>();
-        tradeInfos.forEach(tradeInfo -> {
+    public ResponseEntity validate(@ApiParam(required = true) @RequestBody List<TradeInfo> tradeInfos) {
 
-            Optional<ErrorResponse> validateValueDate = tradeValidator.validateValueDate(tradeInfo);
-            validateValueDate.ifPresent(errorResponses::add);
+        Map<TradeInfo, List<String>> errorMap = getErrorMap(tradeInfos);
 
-            Optional<ErrorResponse> isWeekend = tradeValidator.checkWeekend(tradeInfo);
-            isWeekend.ifPresent(errorResponses::add);
-
-            Optional<ErrorResponse> validateCurrency = tradeValidator.validateCurrency(tradeInfo);
-            isWeekend.ifPresent(errorResponses::add);
-
-
-
-        });
-        if(errorResponses.isEmpty()) {
+        if (errorMap.isEmpty()) {
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponses);
+
+        String jsonBody = GsonUtils.getBodyWithComplexKeyAsJson(errorMap);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(jsonBody);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleException(MethodArgumentNotValidException exception) {
-
-        String errorMsg = exception.getBindingResult().getFieldErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .findFirst()
-                .orElse(exception.getMessage());
-
-        return ErrorResponse.builder().message(errorMsg).build();
+    private Map<TradeInfo, List<String>> getErrorMap(@RequestBody List<TradeInfo> tradeInfos) {
+        return tradeInfos.stream().collect(Collectors
+                .toMap(
+                        Function.identity(),
+                        tradeInfo -> tradeValidator.validate(tradeInfo)
+                                .stream()
+                                .map(Error::getMessage).collect(Collectors.toList())
+                ));
     }
 
-    @PostMapping("/validateOne")
-    public ResponseEntity validateOne( @Valid @RequestBody TradeInfo tradeInfo){
-        System.out.println();
-        return ResponseEntity.ok().build();
-    }
 }

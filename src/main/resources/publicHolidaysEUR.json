@@ -1,0 +1,38 @@
+[
+  {
+    "date": {
+      "year": 2016,
+      "month": 1,
+      "day": 1
+    },
+    "currency": "EUR",
+    "publicHoliday": "New Year Day"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 3,
+      "day": 25
+    },
+    "currency": "EUR",
+    "publicHoliday": "Good Friday"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 3,
+      "day": 28
+    },
+    "currency": "EUR",
+    "publicHoliday": "Easter Monday"
+  },
+  {
+    "date": {
+      "year": 2016,
+      "month": 12,
+      "day": 26
+    },
+    "currency": "EUR",
+    "publicHoliday": "Christmas Day"
+  }
+]
