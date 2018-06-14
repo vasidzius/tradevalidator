@@ -2,6 +2,7 @@
 <textarea ref-textarea [(ngModel)]="textValue" rows="20" cols="100"></textarea><br/>
 <button (click)="validateTrades(textarea.value)">Validate</button>
 <button (click)="textValue=''">Clear</button>
+<button (click)="shutdown()">Shutdown Server</button>
 
 <h2>Validation results <button (click)="validationResults='Validation results will appear here'">Clear</button></h2>
 <pre>{{validationResults | json}}</pre>

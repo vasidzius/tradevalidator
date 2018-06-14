@@ -27,6 +27,11 @@ export class ValidatorService {
       .pipe(catchError(this.handleError))
   }
 
+  public shutdownServer(): Observable<Object> {
+    return this.httpClient.post(API_URL + '/actuator/shutdown', null)
+      .pipe(catchError(this.handleError))
+  }
+
   private handleError( error: Response | any ) {
     console.error('ApiService::handleError', error);
     return throwError(error);

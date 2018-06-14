@@ -69,4 +69,9 @@ export class AppComponent {
         }
       )
   }
+
+  shutdown(): void {
+    this.validatorService.shutdownServer()
+      .subscribe( () => {});
+  }
 }
