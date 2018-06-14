@@ -37,6 +37,7 @@ public class TradeInfo {
     @Size(min = 6, max = 6, message = "Currency Pair (ccyPair) must be string of 6 symbols, three for each currency")
     private String ccyPair;
 
+    @NotNull
     @ValidTradeType
     private TradeType type;
 
